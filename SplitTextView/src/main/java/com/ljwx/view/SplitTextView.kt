@@ -58,14 +58,14 @@ class SplitTextView @JvmOverloads constructor(
     private var mAutoWrap = false
 
     init {
-        val attr = context.obtainStyledAttributes(attrs, R.styleable.SimpleTextView)
+        val attr = context.obtainStyledAttributes(attrs, R.styleable.SplitTextView)
         try {
-            mAutoWrap = attr.getBoolean(R.styleable.SimpleTextView_stvAutoWrap, false)
+            mAutoWrap = attr.getBoolean(R.styleable.SplitTextView_stvAutoWrap, false)
             // 中间位置左右间隔
             mCenterMarginLeft =
-                attr.getDimension(R.styleable.SimpleTextView_stvCenterMarginLeft, 0f)
+                attr.getDimension(R.styleable.SplitTextView_stvCenterMarginLeft, 0f)
             mCenterMarginRight =
-                attr.getDimension(R.styleable.SimpleTextView_stvCenterMarginRight, 0f)
+                attr.getDimension(R.styleable.SplitTextView_stvCenterMarginRight, 0f)
             getTextDrawable(attr)
             leftAttributes(attr)
             centerAttributes(attr)
@@ -79,18 +79,18 @@ class SplitTextView @JvmOverloads constructor(
      * 获取Drawable图片属性
      */
     private fun getTextDrawable(attr: TypedArray) {
-        mDrawableLeft = attr.getDrawable(R.styleable.SimpleTextView_stvDrawableLeft)
+        mDrawableLeft = attr.getDrawable(R.styleable.SplitTextView_stvDrawableLeft)
         mDrawableLeftSize = if (mDrawableLeft == null) 0f else
-            attr.getDimension(R.styleable.SimpleTextView_stvDrawableLeftSize, 42f)
+            attr.getDimension(R.styleable.SplitTextView_stvDrawableLeftSize, 42f)
         mDrawableLeftPadding = if (mDrawableLeft == null) 0f else
-            attr.getDimension(R.styleable.SimpleTextView_stvDrawableLeftPadding, 0f)
+            attr.getDimension(R.styleable.SplitTextView_stvDrawableLeftPadding, 0f)
         mDrawableLeft?.setBounds(0, 0, mDrawableLeftSize.toInt(), mDrawableLeftSize.toInt())
 
-        mDrawableRight = attr.getDrawable(R.styleable.SimpleTextView_stvDrawableRight)
+        mDrawableRight = attr.getDrawable(R.styleable.SplitTextView_stvDrawableRight)
         mDrawableRightSize = if (mDrawableRight == null) 0f else
-            attr.getDimension(R.styleable.SimpleTextView_stvDrawableRightSize, 42f)
+            attr.getDimension(R.styleable.SplitTextView_stvDrawableRightSize, 42f)
         mDrawableRightPadding = if (mDrawableRight == null) 0f else
-            attr.getDimension(R.styleable.SimpleTextView_stvDrawableRightPadding, 0f)
+            attr.getDimension(R.styleable.SplitTextView_stvDrawableRightPadding, 0f)
         mDrawableRight?.setBounds(0, 0, mDrawableRightSize.toInt(), mDrawableRightSize.toInt())
     }
 
@@ -98,10 +98,10 @@ class SplitTextView @JvmOverloads constructor(
      * 居左文字属性
      */
     private fun leftAttributes(attr: TypedArray) {
-        val text = attr.getString(R.styleable.SimpleTextView_stvLeftText)
-        val color = attr.getColor(R.styleable.SimpleTextView_stvLeftColor, defaultColor())
-        val size = attr.getDimension(R.styleable.SimpleTextView_stvLeftSize, defaultSize())
-        val bold = attr.getBoolean(R.styleable.SimpleTextView_stvLeftBold, defaultBold())
+        val text = attr.getString(R.styleable.SplitTextView_stvLeftText)
+        val color = attr.getColor(R.styleable.SplitTextView_stvLeftColor, defaultColor())
+        val size = attr.getDimension(R.styleable.SplitTextView_stvLeftSize, defaultSize())
+        val bold = attr.getBoolean(R.styleable.SplitTextView_stvLeftBold, defaultBold())
         mLeft = createTextAttribute(mLeft, text, color, size, bold)
     }
 
@@ -109,10 +109,10 @@ class SplitTextView @JvmOverloads constructor(
      * 居中文字属性
      */
     private fun centerAttributes(attr: TypedArray) {
-        val text = attr.getString(R.styleable.SimpleTextView_stvCenterText)
-        val color = attr.getColor(R.styleable.SimpleTextView_stvCenterColor, defaultColor())
-        val size = attr.getDimension(R.styleable.SimpleTextView_stvCenterSize, defaultSize())
-        val bold = attr.getBoolean(R.styleable.SimpleTextView_stvCenterBold, defaultBold())
+        val text = attr.getString(R.styleable.SplitTextView_stvCenterText)
+        val color = attr.getColor(R.styleable.SplitTextView_stvCenterColor, defaultColor())
+        val size = attr.getDimension(R.styleable.SplitTextView_stvCenterSize, defaultSize())
+        val bold = attr.getBoolean(R.styleable.SplitTextView_stvCenterBold, defaultBold())
         mCenter = createTextAttribute(mCenter, text, color, size, bold)
     }
 
@@ -120,10 +120,10 @@ class SplitTextView @JvmOverloads constructor(
      * 居右文字属性
      */
     private fun rightAttributes(attr: TypedArray) {
-        val text = attr.getString(R.styleable.SimpleTextView_stvRightText)
-        val color = attr.getColor(R.styleable.SimpleTextView_stvRightColor, defaultColor())
-        val size = attr.getDimension(R.styleable.SimpleTextView_stvRightSize, defaultSize())
-        val bold = attr.getBoolean(R.styleable.SimpleTextView_stvRightBold, defaultBold())
+        val text = attr.getString(R.styleable.SplitTextView_stvRightText)
+        val color = attr.getColor(R.styleable.SplitTextView_stvRightColor, defaultColor())
+        val size = attr.getDimension(R.styleable.SplitTextView_stvRightSize, defaultSize())
+        val bold = attr.getBoolean(R.styleable.SplitTextView_stvRightBold, defaultBold())
         mRight = createTextAttribute(mRight, text, color, size, bold)
     }
 
