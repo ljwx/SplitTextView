@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LessenTextView">
+        <attr name="htvTvNorSize" format="dimension" />
+        <attr name="htvTvNorColor" format="color" />
+        <attr name="htvSpliSize" format="dimension" />
+        <attr name="htvSpliColor" format="color" />
+
+        <attr name="htvLeftString" format="string" />
+        <attr name="htvCenterString" format="string" />
+        <attr name="htvRightString" format="string" />
+        <attr name="htvLeftColor" format="color" />
+        <attr name="htvCenterColor" format="color" />
+        <attr name="htvRightColor" format="color" />
+        <attr name="htvLeftSize" format="dimension" />
+        <attr name="htvCenterSize" format="dimension" />
+        <attr name="htvRightSize" format="dimension" />
+        <attr name="htvLeftBold" format="boolean" />
+        <attr name="htvCenterBold" format="boolean" />
+        <attr name="htvRightBold" format="boolean" />
+        <attr name="htvLeftMarginBottom" format="dimension" />
+        <attr name="htvCenterMarginBottom" format="dimension" />
+        <attr name="htvRightMarginBottom" format="dimension" />
+        <attr name="htvCenterMarginLeft" format="dimension" />
+        <attr name="htvCenterMarginRight" format="dimension" />
+        <attr name="htvGravityMode" format="enum">
+            <enum name="continuation" value="0" />
+            <enum name="average" value="1" />
+        </attr>
+        <attr name="htvBaseLineMode" format="enum">
+            <enum name="bottom" value="0" />
+            <enum name="middle" value="1" />
+        </attr>
+        <attr name="htvDrawLeftWidth" format="dimension" />
+        <attr name="htvDrawLeftHeight" format="dimension" />
+        <attr name="htvDrawLeftPadding" format="dimension" />
+        <attr name="htvDrawRightWidth" format="dimension" />
+        <attr name="htvDrawRightHeight" format="dimension" />
+        <attr name="htvDrawRightPadding" format="dimension" />
+        <attr name="htvAutoSize" format="boolean" />
+        <attr name="htvAutoSizeRatio" format="float" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ThreeTextView">
+
+
+        <attr name="tvText2" format="string" />
+        <attr name="tvText2Color" format="color" />
+        <attr name="tvText2Size" format="dimension" />
+        <attr name="tvText2Font" format="string" />
+        <attr name="tvText2Padding" format="dimension" />
+
+        <attr name="tvText3" format="string" />
+        <attr name="tvText3Color" format="color" />
+        <attr name="tvText3Size" format="dimension" />
+        <attr name="tvText3Font" format="string" />
+        <attr name="tvText3Padding" format="dimension" />
+        <attr name="tvText3MaxWidth" format="dimension" />
+        <attr name="tvText3Gravity" format="enum">
+            <enum name="center" value="0" />
+            <enum name="top" value="1" />
+            <enum name="bottom" value="2" />
+        </attr>
+
+        <attr name="tvLeftIcon" format="reference" />
+        <attr name="tvLeftIconTint" format="color" />
+        <attr name="tvLeftIconPadding" format="dimension" />
+        <attr name="tvLeftIconSize" format="dimension" />
+
+        <attr name="tvRightIcon" format="reference" />
+        <attr name="tvRightIconTint" format="color" />
+        <attr name="tvRightIconPadding" format="dimension" />
+        <attr name="tvRightIconSize" format="dimension" />
+
+    </declare-styleable>
+
+    <declare-styleable name="SimpleTextView">
+        <attr name="stvAutoWrap" format="boolean" />
+
+        <attr name="stvLeftText" format="string" />
+        <attr name="stvLeftColor" format="color" />
+        <attr name="stvLeftSize" format="dimension" />
+        <attr name="stvLeftBold" format="boolean" />
+
+        <attr name="stvCenterText" format="string" />
+        <attr name="stvCenterColor" format="color" />
+        <attr name="stvCenterSize" format="dimension" />
+        <attr name="stvCenterBold" format="boolean" />
+
+        <attr name="stvCenterMarginLeft" format="dimension" />
+        <attr name="stvCenterMarginRight" format="dimension" />
+
+        <attr name="stvRightText" format="string" />
+        <attr name="stvRightColor" format="color" />
+        <attr name="stvRightSize" format="dimension" />
+        <attr name="stvRightBold" format="boolean" />
+
+        <attr name="stvDrawableLeft" format="reference" />
+        <attr name="stvDrawableLeftSize" format="dimension" />
+        <attr name="stvDrawableLeftPadding" format="dimension" />
+        <attr name="stvDrawableRight" format="reference" />
+        <attr name="stvDrawableRightSize" format="dimension" />
+        <attr name="stvDrawableRightPadding" format="dimension" />
+
+    </declare-styleable>
+
+</resources>
