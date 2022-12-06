@@ -1,1 +1,1 @@
-# SimpleTextView
+# SplitTextView
