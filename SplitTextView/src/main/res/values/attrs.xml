@@ -1,38 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="ThreeTextView">
-
-        <attr name="tvText2" format="string" />
-        <attr name="tvText2Color" format="color" />
-        <attr name="tvText2Size" format="dimension" />
-        <attr name="tvText2Font" format="string" />
-        <attr name="tvText2Padding" format="dimension" />
-
-        <attr name="tvText3" format="string" />
-        <attr name="tvText3Color" format="color" />
-        <attr name="tvText3Size" format="dimension" />
-        <attr name="tvText3Font" format="string" />
-        <attr name="tvText3Padding" format="dimension" />
-        <attr name="tvText3MaxWidth" format="dimension" />
-        <attr name="tvText3Gravity" format="enum">
-            <enum name="center" value="0" />
-            <enum name="top" value="1" />
-            <enum name="bottom" value="2" />
-        </attr>
-
-        <attr name="tvLeftIcon" format="reference" />
-        <attr name="tvLeftIconTint" format="color" />
-        <attr name="tvLeftIconPadding" format="dimension" />
-        <attr name="tvLeftIconSize" format="dimension" />
-
-        <attr name="tvRightIcon" format="reference" />
-        <attr name="tvRightIconTint" format="color" />
-        <attr name="tvRightIconPadding" format="dimension" />
-        <attr name="tvRightIconSize" format="dimension" />
-
-    </declare-styleable>
-
     <declare-styleable name="SplitTextView">
         <attr name="stvAutoWrap" format="boolean" />
 
@@ -56,10 +24,10 @@
 
         <attr name="stvDrawableLeft" format="reference" />
         <attr name="stvDrawableLeftSize" format="dimension" />
-        <attr name="stvDrawableLeftPadding" format="dimension" />
+        <attr name="stvDrawableLeftTextPadding" format="dimension" />
         <attr name="stvDrawableRight" format="reference" />
         <attr name="stvDrawableRightSize" format="dimension" />
-        <attr name="stvDrawableRightPadding" format="dimension" />
+        <attr name="stvDrawableRightTextPadding" format="dimension" />
 
     </declare-styleable>
 

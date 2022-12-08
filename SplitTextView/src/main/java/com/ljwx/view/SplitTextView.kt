@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.*
 import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
 import kotlin.math.abs
 import kotlin.math.max
@@ -15,14 +14,14 @@ import kotlin.math.max
 /**
  * @author ljwx
  * @since 2022/11/16
+ *
+ * 对内容中的特殊字段修改字体样式
  */
 class SplitTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
-
-    private val TAG = this.javaClass.simpleName
 
     /**
      * text属性对象
@@ -48,7 +47,7 @@ class SplitTextView @JvmOverloads constructor(
     private var mCenterMarginRight = 0f
 
     /**
-     * 文字对齐基线值
+     * 基线位置
      */
     private var mBaseLine = 0f
 
@@ -61,7 +60,7 @@ class SplitTextView @JvmOverloads constructor(
         val attr = context.obtainStyledAttributes(attrs, R.styleable.SplitTextView)
         try {
             mAutoWrap = attr.getBoolean(R.styleable.SplitTextView_stvAutoWrap, false)
-            // 中间位置左右间隔
+            // 中间文本的左右间隔
             mCenterMarginLeft =
                 attr.getDimension(R.styleable.SplitTextView_stvCenterMarginLeft, 0f)
             mCenterMarginRight =
@@ -76,26 +75,30 @@ class SplitTextView @JvmOverloads constructor(
     }
 
     /**
-     * 获取Drawable图片属性
+     * 获取Drawable相关属性
+     *
+     * @param attr TypedArray
      */
     private fun getTextDrawable(attr: TypedArray) {
         mDrawableLeft = attr.getDrawable(R.styleable.SplitTextView_stvDrawableLeft)
         mDrawableLeftSize = if (mDrawableLeft == null) 0f else
             attr.getDimension(R.styleable.SplitTextView_stvDrawableLeftSize, 42f)
         mDrawableLeftPadding = if (mDrawableLeft == null) 0f else
-            attr.getDimension(R.styleable.SplitTextView_stvDrawableLeftPadding, 0f)
+            attr.getDimension(R.styleable.SplitTextView_stvDrawableLeftTextPadding, 0f)
         mDrawableLeft?.setBounds(0, 0, mDrawableLeftSize.toInt(), mDrawableLeftSize.toInt())
 
         mDrawableRight = attr.getDrawable(R.styleable.SplitTextView_stvDrawableRight)
         mDrawableRightSize = if (mDrawableRight == null) 0f else
             attr.getDimension(R.styleable.SplitTextView_stvDrawableRightSize, 42f)
         mDrawableRightPadding = if (mDrawableRight == null) 0f else
-            attr.getDimension(R.styleable.SplitTextView_stvDrawableRightPadding, 0f)
+            attr.getDimension(R.styleable.SplitTextView_stvDrawableRightTextPadding, 0f)
         mDrawableRight?.setBounds(0, 0, mDrawableRightSize.toInt(), mDrawableRightSize.toInt())
     }
 
     /**
-     * 居左文字属性
+     * 左边文字属性
+     *
+     * @param attr TypedArray
      */
     private fun leftAttributes(attr: TypedArray) {
         val text = attr.getString(R.styleable.SplitTextView_stvLeftText)
@@ -106,7 +109,9 @@ class SplitTextView @JvmOverloads constructor(
     }
 
     /**
-     * 居中文字属性
+     * 中间文字属性
+     *
+     * @param attr TypedArray
      */
     private fun centerAttributes(attr: TypedArray) {
         val text = attr.getString(R.styleable.SplitTextView_stvCenterText)
@@ -117,7 +122,9 @@ class SplitTextView @JvmOverloads constructor(
     }
 
     /**
-     * 居右文字属性
+     * 右边文字属性
+     *
+     * @param attr TypedArray
      */
     private fun rightAttributes(attr: TypedArray) {
         val text = attr.getString(R.styleable.SplitTextView_stvRightText)
@@ -130,11 +137,12 @@ class SplitTextView @JvmOverloads constructor(
     /**
      * 创建text属性对象
      *
-     * @param 当前属性对象
+     * @param attribute 当前属性对象
      * @param text 文字内容
      * @param color 文字颜色
      * @param size 文字大小
      * @param bold 文字加粗
+     * @return 文字属性对象
      */
     private fun createTextAttribute(
         attribute: TextAttributes?,
@@ -156,9 +164,6 @@ class SplitTextView @JvmOverloads constructor(
         return null
     }
 
-    /**
-     * 测量宽高
-     */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
@@ -169,49 +174,37 @@ class SplitTextView @JvmOverloads constructor(
     }
 
     /**
-     * 计算view宽度
+     * 计算控件宽度
+     *
+     * @param widthMeasureSpec 宽度规格
+     * @return 控件宽度
      */
     private fun computeWidth(widthMeasureSpec: Int): Int {
-        val widthMode = View.MeasureSpec.getMode(widthMeasureSpec)
-        var width = View.MeasureSpec.getSize(widthMeasureSpec)
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        var width = MeasureSpec.getSize(widthMeasureSpec)
         // wrap_content/scrollview
-        if (View.MeasureSpec.AT_MOST == widthMode || View.MeasureSpec.UNSPECIFIED == widthMode) {
+        if (MeasureSpec.AT_MOST == widthMode || MeasureSpec.UNSPECIFIED == widthMode) {
+            val centerMarginWidth = mCenterMarginLeft + mCenterMarginRight
+            val drawableWidth = mDrawableLeftSize + mDrawableRightSize
+            val drawablePadding = mDrawableLeftPadding + mDrawableRightPadding
+            val textWidth = paint.measureText(text as String) + (mLeft?.textWidth ?: 0f) +
+                    (mCenter?.textWidth ?: 0f) + (mRight?.textWidth ?: 0f)
             val totalWidth =
-                getTotalTextWidth() + getPaddingWidth() + getDrawableWidth() + getCenterMarginWidth()
+                textWidth + paddingLeft + paddingRight + drawableWidth + drawablePadding + centerMarginWidth
             if (totalWidth < width) {
                 width = totalWidth.toInt()
             }
         }
         // 精确 match_parent/100dp
-        if (View.MeasureSpec.EXACTLY == widthMode) {
+        if (MeasureSpec.EXACTLY == widthMode) {
         }
         return width
     }
 
     /**
-     * 获取Drawable的宽度
-     */
-    private fun getDrawableWidth(): Float {
-        return mDrawableLeftSize + mDrawableRightSize + mDrawableLeftPadding + mDrawableRightPadding
-    }
-
-    /**
-     * 获取中间间隔宽度
-     */
-    private fun getCenterMarginWidth(): Float {
-        return mCenterMarginLeft + mCenterMarginRight
-    }
-
-    /**
-     * 获取文字总宽度
-     */
-    private fun getTotalTextWidth(): Float {
-        return paint.measureText(text.toString()) + (mLeft?.textWidth ?: 0f) +
-                (mCenter?.textWidth ?: 0f) + (mRight?.textWidth ?: 0f)
-    }
-
-    /**
      * 获取最大高度
+     *
+     * @return 文字最大高度
      */
     private fun getTextMaxHeight(): Float {
         var max = max((mLeft?.lineHeight ?: 0f), (mCenter?.lineHeight ?: 0f))
@@ -222,6 +215,9 @@ class SplitTextView @JvmOverloads constructor(
 
     /**
      * 计算view高度
+     *
+     * @param heightMeasureSpec 高度规格
+     * @return 控件高度
      */
     private fun computeHeight(heightMeasureSpec: Int): Int {
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
@@ -257,19 +253,19 @@ class SplitTextView @JvmOverloads constructor(
         super.onDraw(canvas)
         canvas.restore()
 
+//        if (mAutoWrap) {
+//        } else {
+//        }
+        val leftPadding = paddingLeft + mDrawableLeftSize + mDrawableLeftPadding
+        // 绘制文字
         canvas.save()
-        if (mAutoWrap) {
-
-        } else {
-            val leftPadding = paddingLeft + mDrawableLeftSize + mDrawableLeftPadding
-            // 绘制文字
-            drawText(canvas, mLeft, leftPadding + paint.measureText(text.toString()), mBaseLine)
-            drawText(canvas, mCenter, mCenterMarginLeft, mBaseLine)
-            drawText(canvas, mRight, mCenterMarginRight, mBaseLine)
-            canvas.restore()
-            // 绘制图片
-            drawIcon(canvas)
-        }
+        canvas.translate(leftPadding + paint.measureText(text as String), 0f)
+        drawText(canvas, mLeft, 0f, mBaseLine)
+        drawText(canvas, mCenter, mCenterMarginLeft, mBaseLine)
+        drawText(canvas, mRight, mCenterMarginRight, mBaseLine)
+        canvas.restore()
+        // 绘制图片
+        drawIcon(canvas)
     }
 
     /**
@@ -288,7 +284,7 @@ class SplitTextView @JvmOverloads constructor(
     }
 
     /**
-     * 绘制左右图片
+     * 绘制左右Drawable
      *
      * @param canvas 画布
      */
@@ -310,13 +306,6 @@ class SplitTextView @JvmOverloads constructor(
         }
     }
 
-
-    /**
-     * 宽度padding值
-     */
-    private fun getPaddingWidth(): Int {
-        return paddingLeft + paddingRight
-    }
 
     /**
      * 高度padding值
@@ -388,6 +377,10 @@ class SplitTextView @JvmOverloads constructor(
          */
         var paint = TextPaint(Paint.ANTI_ALIAS_FLAG)
 
+        init {
+            initPaint()
+        }
+
         /**
          * 初始化画笔
          */
@@ -409,7 +402,7 @@ class SplitTextView @JvmOverloads constructor(
                 textWidth = 0f
                 lineHeight = 0f
             } else {
-                textWidth = paint.measureText(text.toString())
+                textWidth = paint.measureText(text)
                 val fm = paint.fontMetrics
                 lineHeight = fm.bottom - fm.top + fm.leading
 
@@ -422,7 +415,11 @@ class SplitTextView @JvmOverloads constructor(
 
     }
 
+    /**
+     * 设置文本内容
+     */
     fun setTextLeft(text: String?) {
+        mLeft = mLeft ?: TextAttributes()
         mLeft?.setText(text)
         invalidate()
     }
@@ -432,6 +429,7 @@ class SplitTextView @JvmOverloads constructor(
     }
 
     fun setTextCenter(text: String?) {
+        mCenter = mCenter ?: TextAttributes()
         mCenter?.setText(text)
         invalidate()
     }
@@ -441,6 +439,7 @@ class SplitTextView @JvmOverloads constructor(
     }
 
     fun setTextRight(text: String?) {
+        mRight = mRight ?: TextAttributes()
         mRight?.setText(text)
         invalidate()
     }
@@ -449,17 +448,23 @@ class SplitTextView @JvmOverloads constructor(
         return mRight?.getText()
     }
 
+    /**
+     * 设置文本颜色
+     */
     fun setColorLeft(color: Int) {
+        mLeft = mLeft ?: TextAttributes()
         mLeft?.paint?.color = color
         invalidate()
     }
 
     fun setColorCenter(color: Int) {
+        mCenter = mCenter ?: TextAttributes()
         mCenter?.paint?.color = color
         invalidate()
     }
 
     fun setColorRight(color: Int) {
+        mRight = mRight ?: TextAttributes()
         mRight?.paint?.color = color
         invalidate()
     }
