@@ -2,7 +2,7 @@
 
 build.gradle 引入
 ```
-implementation 'io.github.ljwx:SplitTextView:0.3.5'
+implementation 'io.github.ljwx:SplitTextView:0.3.8'
 ```
 
 效果预览
