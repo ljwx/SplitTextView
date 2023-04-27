@@ -421,6 +421,7 @@ class SplitTextView @JvmOverloads constructor(
     fun setTextLeft(text: String?) {
         mLeft = mLeft ?: TextAttributes()
         mLeft?.setText(text)
+        requestLayout()
         invalidate()
     }
 
@@ -431,6 +432,7 @@ class SplitTextView @JvmOverloads constructor(
     fun setTextCenter(text: String?) {
         mCenter = mCenter ?: TextAttributes()
         mCenter?.setText(text)
+        requestLayout()
         invalidate()
     }
 
@@ -441,6 +443,7 @@ class SplitTextView @JvmOverloads constructor(
     fun setTextRight(text: String?) {
         mRight = mRight ?: TextAttributes()
         mRight?.setText(text)
+        requestLayout()
         invalidate()
     }
 
