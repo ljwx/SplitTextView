@@ -3,6 +3,7 @@
 
     <declare-styleable name="SplitTextView">
         <attr name="stvAutoWrap" format="boolean" />
+        <attr name="stvSpreadInside" format="boolean"/>
 
         <attr name="stvLeftText" format="string" />
         <attr name="stvLeftColor" format="color" />

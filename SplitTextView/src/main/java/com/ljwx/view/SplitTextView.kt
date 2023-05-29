@@ -56,10 +56,13 @@ class SplitTextView @JvmOverloads constructor(
      */
     private var mAutoWrap = false
 
+    private var mSpreadInside = false
+
     init {
         val attr = context.obtainStyledAttributes(attrs, R.styleable.SplitTextView)
         try {
             mAutoWrap = attr.getBoolean(R.styleable.SplitTextView_stvAutoWrap, false)
+            mSpreadInside = attr.getBoolean(R.styleable.SplitTextView_stvSpreadInside, false)
             // 中间文本的左右间隔
             mCenterMarginLeft =
                 attr.getDimension(R.styleable.SplitTextView_stvCenterMarginLeft, 0f)
@@ -260,28 +263,31 @@ class SplitTextView @JvmOverloads constructor(
         // 绘制文字
         canvas.save()
         canvas.translate(leftPadding + paint.measureText(text as String), 0f)
-        drawText(canvas, mLeft, 0f, mBaseLine)
-        drawText(canvas, mCenter, mCenterMarginLeft, mBaseLine)
-        drawText(canvas, mRight, mCenterMarginRight, mBaseLine)
+        mLeft?.let {
+            canvas.drawText(it.getText(), 0f, mBaseLine, it.paint)
+            canvas.translate(it.textWidth, 0f)
+        }
+        mCenter?.let {
+            canvas.drawText(it.getText(), mCenterMarginLeft, mBaseLine, it.paint)
+            canvas.translate(it.textWidth + mCenterMarginLeft, 0f)
+        }
+        mRight?.let {
+            if (mSpreadInside) {
+                canvas.restore()
+                val transX =
+                    measuredWidth - it.textWidth - paddingRight - mDrawableRightSize - mDrawableRightPadding
+                canvas.drawText(it.getText(), transX, mBaseLine, it.paint)
+                canvas.save()
+            } else {
+                canvas.drawText(it.getText(), mCenterMarginRight, mBaseLine, it.paint)
+                canvas.translate(it.textWidth + mCenterMarginRight, 0f)
+            }
+        }
         canvas.restore()
         // 绘制图片
         drawIcon(canvas)
     }
 
-    /**
-     * 绘制文字
-     *
-     * @param canvas 画布
-     * @param text 内容属性对象
-     * @param x x轴起点位置
-     * @param y baseline位置
-     */
-    private fun drawText(canvas: Canvas, text: TextAttributes?, x: Float, y: Float) {
-        text?.let {
-            canvas.drawText(it.getText(), x, y, it.paint)
-            canvas.translate(x + text.textWidth, 0f)
-        }
-    }
 
     /**
      * 绘制左右Drawable
@@ -291,8 +297,10 @@ class SplitTextView @JvmOverloads constructor(
     private fun drawIcon(canvas: Canvas) {
         mDrawableLeft?.let {
             canvas.save()
-            canvas.translate(paddingLeft.toFloat(),
-                ((measuredHeight - getPaddingHeight()) - mDrawableLeftSize) / 2f + compoundPaddingTop) // 去掉高度padding,再加上paddingTop
+            canvas.translate(
+                paddingLeft.toFloat(),
+                ((measuredHeight - getPaddingHeight()) - mDrawableLeftSize) / 2f + compoundPaddingTop
+            ) // 去掉高度padding,再加上paddingTop
             it.draw(canvas)
             canvas.restore()
         }
@@ -300,7 +308,8 @@ class SplitTextView @JvmOverloads constructor(
             canvas.save()
             canvas.translate(
                 measuredWidth.toFloat() - paddingRight - mDrawableRightSize,
-                ((measuredHeight - getPaddingHeight()) - mDrawableRightSize) / 2f + compoundPaddingTop) // 去掉高度padding,再加上paddingTop
+                ((measuredHeight - getPaddingHeight()) - mDrawableRightSize) / 2f + compoundPaddingTop
+            ) // 去掉高度padding,再加上paddingTop
             it.draw(canvas)
             canvas.restore()
         }

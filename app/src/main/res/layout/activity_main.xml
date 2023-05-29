@@ -60,6 +60,33 @@
             app:stvRightSize="14dp"
             app:stvRightText="中文" />
 
+        <com.ljwx.view.SplitTextView
+            android:id="@+id/split3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            android:paddingLeft="16dp"
+            android:paddingRight="10dp"
+            android:text="TextView "
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:stvCenterColor="@android:color/holo_green_light"
+            app:stvCenterMarginLeft="12dp"
+            app:stvCenterSize="18dp"
+            app:stvCenterText="中文"
+            app:stvDrawableLeft="@mipmap/ic_launcher"
+            app:stvDrawableLeftSize="30dp"
+            app:stvDrawableLeftTextPadding="10dp"
+            app:stvDrawableRight="@mipmap/ic_launcher"
+            app:stvDrawableRightTextPadding="10dp"
+            app:stvLeftText="asdf"
+            app:stvRightBold="true"
+            app:stvRightSize="14dp"
+            app:stvRightText="中文"
+            app:stvSpreadInside="true" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
