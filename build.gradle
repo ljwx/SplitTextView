@@ -11,6 +11,8 @@ buildscript {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.6.20"
         //1、依赖抓包插件库
 //        classpath 'io.github.ljwx:modular-splittextview-plugin:0.0.1'
+        //jitpack
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 

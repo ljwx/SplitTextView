@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'com.vanniktech.maven.publish'
+//    id 'com.vanniktech.maven.publish'
+    id 'maven-publish'
 }
 
 android {
@@ -38,4 +39,18 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.from components.release// You can then customize attributes of the publication as shown below.
+//                groupId = 'com.ljwx.view'
+//                artifactId = 'common'
+//                version = '0.3.0'
+            }
+        }
+    }
 }
