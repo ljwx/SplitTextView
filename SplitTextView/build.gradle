@@ -47,9 +47,9 @@ afterEvaluate {
             // Creates a Maven publication called "release".
             release(MavenPublication) {
                 // Applies the component for the release build variant.from components.release// You can then customize attributes of the publication as shown below.
-//                groupId = 'com.ljwx.view'
-//                artifactId = 'common'
-//                version = '0.3.0'
+                groupId = 'com.ljwx.view'
+                artifactId = 'splittext'
+                version = '0.3.0'
             }
         }
     }
