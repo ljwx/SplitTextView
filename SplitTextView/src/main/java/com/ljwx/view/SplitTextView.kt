@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.text.*
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
+import java.lang.StringBuilder
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -17,7 +18,7 @@ import kotlin.math.max
  *
  * 对内容中的特殊字段修改字体样式
  */
-class SplitTextView @JvmOverloads constructor(
+open class SplitTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -190,7 +191,7 @@ class SplitTextView @JvmOverloads constructor(
             val centerMarginWidth = mCenterMarginLeft + mCenterMarginRight
             val drawableWidth = mDrawableLeftSize + mDrawableRightSize
             val drawablePadding = mDrawableLeftPadding + mDrawableRightPadding
-            val textWidth = paint.measureText(text as String) + (mLeft?.textWidth ?: 0f) +
+            val textWidth = paint.measureText(super.getText() as String) + (mLeft?.textWidth ?: 0f) +
                     (mCenter?.textWidth ?: 0f) + (mRight?.textWidth ?: 0f)
             val totalWidth =
                 textWidth + paddingLeft + paddingRight + drawableWidth + drawablePadding + centerMarginWidth
@@ -262,7 +263,7 @@ class SplitTextView @JvmOverloads constructor(
         val leftPadding = paddingLeft + mDrawableLeftSize + mDrawableLeftPadding
         // 绘制文字
         canvas.save()
-        canvas.translate(leftPadding + paint.measureText(text as String), 0f)
+        canvas.translate(leftPadding + paint.measureText(super.getText() as String), 0f)
         mLeft?.let {
             canvas.drawText(it.getText(), 0f, mBaseLine, it.paint)
             canvas.translate(it.textWidth, 0f)
@@ -288,6 +289,33 @@ class SplitTextView @JvmOverloads constructor(
         drawIcon(canvas)
     }
 
+    override fun getText(): CharSequence {
+        return getAllText()
+    }
+
+    private fun getAllText(): CharSequence {
+        val builder = StringBuilder()
+        val superText = super.getText()
+        if (!superText.isNullOrEmpty()) {
+            builder.append(superText)
+        }
+        mLeft?.let {
+            if (it.getText().isNotEmpty()) {
+                builder.append(it.getText())
+            }
+        }
+        mCenter?.let {
+            if (it.getText().isNotEmpty()) {
+                builder.append(it.getText())
+            }
+        }
+        mRight?.let {
+            if (it.getText().isNotEmpty()) {
+                builder.append(it.getText())
+            }
+        }
+        return builder
+    }
 
     /**
      * 绘制左右Drawable
