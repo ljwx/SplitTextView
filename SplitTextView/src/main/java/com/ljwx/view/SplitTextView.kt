@@ -24,6 +24,10 @@ open class SplitTextView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
+    companion object {
+        var isAutoTest = false
+    }
+
     /**
      * text属性对象
      */
@@ -191,7 +195,7 @@ open class SplitTextView @JvmOverloads constructor(
             val centerMarginWidth = mCenterMarginLeft + mCenterMarginRight
             val drawableWidth = mDrawableLeftSize + mDrawableRightSize
             val drawablePadding = mDrawableLeftPadding + mDrawableRightPadding
-            val textWidth = paint.measureText(super.getText() as String) + (mLeft?.textWidth ?: 0f) +
+            val textWidth = paint.measureText(text as String) + (mLeft?.textWidth ?: 0f) +
                     (mCenter?.textWidth ?: 0f) + (mRight?.textWidth ?: 0f)
             val totalWidth =
                 textWidth + paddingLeft + paddingRight + drawableWidth + drawablePadding + centerMarginWidth
@@ -263,7 +267,7 @@ open class SplitTextView @JvmOverloads constructor(
         val leftPadding = paddingLeft + mDrawableLeftSize + mDrawableLeftPadding
         // 绘制文字
         canvas.save()
-        canvas.translate(leftPadding + paint.measureText(super.getText() as String), 0f)
+        canvas.translate(leftPadding + paint.measureText(text as String), 0f)
         mLeft?.let {
             canvas.drawText(it.getText(), 0f, mBaseLine, it.paint)
             canvas.translate(it.textWidth, 0f)
@@ -287,32 +291,29 @@ open class SplitTextView @JvmOverloads constructor(
         canvas.restore()
         // 绘制图片
         drawIcon(canvas)
+        // 方便自动化测试获取内容
+        if (isAutoTest) {
+            contentDescription = getAllText()
+        }
     }
 
-    override fun getText(): CharSequence {
-        return getAllText()
-    }
-
-    private fun getAllText(): CharSequence {
+    /**
+     * 获取控件所有文字内容
+     */
+    open fun getAllText(): CharSequence {
         val builder = StringBuilder()
         val superText = super.getText()
         if (!superText.isNullOrEmpty()) {
             builder.append(superText)
         }
-        mLeft?.let {
-            if (it.getText().isNotEmpty()) {
-                builder.append(it.getText())
-            }
+        if (mLeft?.getText()?.isNotEmpty() == true) {
+            builder.append(mLeft!!.getText())
         }
-        mCenter?.let {
-            if (it.getText().isNotEmpty()) {
-                builder.append(it.getText())
-            }
+        if (mCenter?.getText()?.isNotEmpty() == true) {
+            builder.append(mCenter!!.getText())
         }
-        mRight?.let {
-            if (it.getText().isNotEmpty()) {
-                builder.append(it.getText())
-            }
+        if (mRight?.getText()?.isNotEmpty() == true) {
+            builder.append(mRight!!.getText())
         }
         return builder
     }
