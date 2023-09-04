@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         // vanniktech 发布插件
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.18.0'
+//        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.18.0'
         // Kotlin Javadoc，非必须
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.6.20"
         //1、依赖抓包插件库
