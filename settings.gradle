@@ -3,7 +3,7 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
-        maven { url 'C:/Users/admin/.m2/repository' }
+//        maven { url 'C:/Users/admin/.m2/repository' }
     }
 }
 dependencyResolutionManagement {
@@ -11,7 +11,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url 'C:/Users/admin/.m2/repository' }
+//        maven { url 'C:/Users/admin/.m2/repository' }
     }
 }
 rootProject.name = "LessenTextView"
