@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.text.*
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
+import java.lang.StringBuilder
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -17,11 +18,15 @@ import kotlin.math.max
  *
  * 对内容中的特殊字段修改字体样式
  */
-class SplitTextView @JvmOverloads constructor(
+open class SplitTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
+
+    companion object {
+        var isAutoTest = false
+    }
 
     /**
      * text属性对象
@@ -286,8 +291,32 @@ class SplitTextView @JvmOverloads constructor(
         canvas.restore()
         // 绘制图片
         drawIcon(canvas)
+        // 方便自动化测试获取内容
+        if (isAutoTest) {
+            contentDescription = getAllText()
+        }
     }
 
+    /**
+     * 获取控件所有文字内容
+     */
+    open fun getAllText(): CharSequence {
+        val builder = StringBuilder()
+        val superText = super.getText()
+        if (!superText.isNullOrEmpty()) {
+            builder.append(superText)
+        }
+        if (mLeft?.getText()?.isNotEmpty() == true) {
+            builder.append(mLeft!!.getText())
+        }
+        if (mCenter?.getText()?.isNotEmpty() == true) {
+            builder.append(mCenter!!.getText())
+        }
+        if (mRight?.getText()?.isNotEmpty() == true) {
+            builder.append(mRight!!.getText())
+        }
+        return builder
+    }
 
     /**
      * 绘制左右Drawable
