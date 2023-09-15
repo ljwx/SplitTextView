@@ -227,15 +227,13 @@ open class SplitTextView @JvmOverloads constructor(
      * @param heightMeasureSpec 高度规格
      * @return 控件高度
      */
-    private fun computeHeight(heightMeasureSpec: Int): Int {
+    open fun computeHeight(heightMeasureSpec: Int): Int {
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
         var height = MeasureSpec.getSize(heightMeasureSpec)
         // wrap_content/scrollview
         if (MeasureSpec.AT_MOST == heightMode || MeasureSpec.UNSPECIFIED == heightMode) {
             val totalHeight = getTextMaxHeight() + getPaddingHeight()
-            if (totalHeight < height) {
-                height = totalHeight.toInt()
-            }
+            return totalHeight.toInt()
         }
         // 精确 match_parent/100dp
         if (MeasureSpec.EXACTLY == heightMode) {
@@ -297,9 +295,6 @@ open class SplitTextView @JvmOverloads constructor(
         }
     }
 
-    /**
-     * 获取控件所有文字内容
-     */
     open fun getAllText(): CharSequence {
         val builder = StringBuilder()
         val superText = super.getText()
