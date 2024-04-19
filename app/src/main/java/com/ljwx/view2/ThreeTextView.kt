@@ -1,4 +1,4 @@
-package com.ljwx.view
+package com.ljwx.view2
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -19,6 +19,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import com.ljwx.view2.R
 import kotlin.math.max
 
 class ThreeTextView @JvmOverloads constructor(

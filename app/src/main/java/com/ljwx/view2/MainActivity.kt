@@ -1,8 +1,10 @@
-package com.ljwx.view
+package com.ljwx.view2
 
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.ljwx.view2.R
+import com.ljwx.view.SplitTextView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
